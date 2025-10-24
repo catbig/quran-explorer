@@ -3,10 +3,11 @@ import axios from "axios";
 import CONFIG from "../config/app.config";
 import { getAccessToken } from "./oauth";
 import { RandomVerseResponse, TranslationResource, TranslationResourcesResponse, VerseTranslationResponse } from "@/app/quran.types";
+import SECRETS from "@/config/app.secret";
 
 async function getHeaders() {
   return {
-      "x-client-id": CONFIG.CLIENT_ID,
+      "x-client-id": SECRETS.CLIENT_ID,
       "x-auth-token": await getAccessToken(), // your helper function
   }
 }

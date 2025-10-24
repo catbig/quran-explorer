@@ -1,5 +1,6 @@
 import axios from "axios";
-import CONFIG from "../config/app.config";
+import CONFIG from "@/config/app.config";
+import SECRETS from "@/config/app.secret";
 
 interface TokenCache {
   token: string | null;
@@ -25,7 +26,7 @@ export async function getAccessToken(): Promise<string> {
 
   if (CONFIG.debug) console.log("[OAuth] Requesting new token");
 
-  const auth = Buffer.from(`${CONFIG.CLIENT_ID}:${CONFIG.CLIENT_SECRET}`).toString("base64");
+  const auth = Buffer.from(`${SECRETS.CLIENT_ID}:${SECRETS.CLIENT_SECRET}`).toString("base64");
 
   try {
     const res = await axios.post(
