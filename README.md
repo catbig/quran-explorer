@@ -28,21 +28,21 @@ This project showcases **OAuth2 authentication**, **API fetching**, and centrali
 |                      Quran Explorer                      |
 |----------------------------------------------------------|
 |                    Next.js Frontend                      |
-| - React Components (Navbar)        |
+| - React Components (Navbar)                              |
 | - Tailwind CSS UI                                        |
 | - NextAuth.js Login UI                                   |
 +-------------------------▲--------------------------------+
                           │ OAuth2
 +-------------------------┼--------------------------------+
-|           Quran.Foundation Authorization Server           |
-|   - Issues access tokens via OAuth2                       |
+|           Quran.Foundation Authorization Server          |
+|   - Issues access tokens via OAuth2                      |
 +-------------------------┼--------------------------------+
                           │ API calls (Bearer token)
 +-------------------------▼--------------------------------+
-|             Quran.Foundation API (Prelive)                |
-| - Random Ayah / Verse endpoints                            |
-| - Translations & metadata                                  |
-| - JSON responses handled by quranClient.ts                |
+|             Quran.Foundation API (Prelive)               |
+| - Random Ayah / Verse endpoints                          |
+| - Translations & metadata                                |
+| - JSON responses handled by quranClient.ts               |
 +----------------------------------------------------------+
 ```
 
@@ -168,10 +168,17 @@ gpg --list-keys
 git secret tell your.email@example.com
 ```
 
-4. Encrypt secrets:
+4. Create secrets file
 
 ```bash
-git secret add [filepath]
+echo "CLIENT_ID=your-client-id" > src/.env.client
+echo "CLIENT_SECRET=your-client-secret" >> src/.env.client
+```
+
+5. Encrypt secrets:
+
+```bash
+git secret add src/.env.client
 git secret hide   # encrypt
 git secret reveal # decrypt
 ```
@@ -239,7 +246,7 @@ Open your ngrok URL in the browser.
 
 3. **`/verses/random`**
 
-   * Returns an error if both chapter number and juz number are used:
+   * Returns an error if the chapter number, the juz number, or both are used:
 
 ```json
 {
