@@ -1,4 +1,4 @@
-# Quran Explorer
+# 📖 Quran Explorer
 
 A **Next.js 15.x** project demonstrating integration with **Quran.Foundation APIs**.
 This project showcases **OAuth2 authentication**, **API fetching**, and centralized configuration management.
@@ -71,7 +71,7 @@ This project showcases **OAuth2 authentication**, **API fetching**, and centrali
 
 * Next.js 15.x + Tailwind CSS
 * OAuth2 login via [Quran.Foundation](https://quran.foundation)
-* Public callback URL using `ngrok`
+* Public callback URL using **ngrok**
 * Fetch **random ayah** and **translations** from the prelive API
 * Centralized configuration in `config/app.config.ts`
 * TypeScript-enabled for type safety
@@ -80,7 +80,7 @@ This project showcases **OAuth2 authentication**, **API fetching**, and centrali
 
 ## ⚙️ Project Setup
 
-Use this if you want to set up the project from scratch.
+Use this step if you want to set up the project from scratch.
 
 ```bash
 npx create-next-app@15.5.6 quran-explorer
@@ -151,11 +151,10 @@ brew install git-secret
 
 ```bash
 gpg --full-generate-key
-# Select type: 1 (RSA and RSA)
+# Type: 1 (RSA and RSA)
 # Key size: 4096
 # Expiration: 0 (never)
-# Enter your name and email
-# Set a strong passphrase
+# Enter name, email, and passphrase
 ```
 
 2. Verify:
@@ -170,7 +169,7 @@ gpg --list-keys
 git secret tell your.email@example.com
 ```
 
-4. Create secrets file
+4. Create secrets file:
 
 ```bash
 echo "CLIENT_ID=your-client-id" > src/.env.client
@@ -203,11 +202,12 @@ npm install
 ngrok http 3000
 ```
 
-* Copy the HTTPS URL and update your **Quran.Foundation OAuth2 redirect URI**.
+Copy the HTTPS URL and update your **Quran.Foundation OAuth2 redirect URI**.
 
 ### 3. Request API Access & Configure Callback
 
-Visit [Quran.Foundation API Access](https://api-docs.quran.foundation/request-access) and use your ngrok URL as the **Callback URL**.
+Visit [Quran.Foundation API Access](https://api-docs.quran.foundation/request-access)
+and use your ngrok URL as the **Callback URL**.
 
 ### 4. Run the Development Server
 
@@ -215,28 +215,49 @@ Visit [Quran.Foundation API Access](https://api-docs.quran.foundation/request-ac
 npm run dev
 ```
 
-Open your ngrok URL in the browser.
+Then open your ngrok URL in the browser.
+
+---
+
+## 🌐 Development URL
+
+You can access the live development instance of **Quran Explorer** here:
+
+👉 [https://macrographic-regardful-bell.ngrok-free.dev/](https://macrographic-regardful-bell.ngrok-free.dev/)
+
+> Note: This URL is temporary and may change whenever ngrok restarts.
 
 ---
 
 ## 🔐 OAuth2 Authentication
 
 * Implemented using **NextAuth.js**
-* OAuth endpoints and scopes are defined in `config/app.config.ts`
-* Access token is reused for authenticated API calls
+* OAuth endpoints and scopes defined in `config/app.config.ts`
+* Access token reused for authenticated API calls
 * Server-side API routes securely proxy requests to Quran.Foundation
 
 ---
 
 ## 💡 Usage
 
-1. Click the button **Get Random Verse**
+1. Click **Get Random Verse**
 2. Fetch a random ayah
 3. View translations for that ayah
 
 ---
 
-## 🐞 Bugs Found
+## 🖼️ Display Mockup
+
+Below is a preview of the **Quran Explorer** interface:
+
+<img width="499" height="654" alt="gambar" src="https://github.com/user-attachments/assets/7d11703c-0570-457d-bf11-7e3b95493670" />
+
+---
+
+## 🐞 Bugs Found (Quran.Foundation API)
+
+These issues were observed while testing the **Quran.Foundation API (Prelive)** environment.
+They are **API-side bugs**, not related to the Quran Explorer implementation.
 
 1. **`/resource/translation`**
 
@@ -248,7 +269,7 @@ Open your ngrok URL in the browser.
 
 3. **`/verses/random`**
 
-   * Returns an error if the chapter number, the juz number, or both are used:
+   * Returns an error when chapter number, juz number, or both are used as filters.
 
 ```json
 {
@@ -257,13 +278,17 @@ Open your ngrok URL in the browser.
 }
 ```
 
+> I will report these issues to the Quran.Foundation API team for review if they have not been reported yet.
+
+
 ---
 
 ## 📝 Notes
 
 * Uses **prelive API** for development; production URL is commented in config.
-* OAuth2 callback is exposed via **ngrok** during local testing.
-* UI is styled with **Tailwind CSS**.
-* All constants, endpoints, and translations are centralized in `config/app.config.ts`.
+* OAuth2 callback exposed via **ngrok** during local testing.
+* UI styled with **Tailwind CSS**.
+* Constants, endpoints, and translations centralized in `config/app.config.ts`.
 
 ---
+
