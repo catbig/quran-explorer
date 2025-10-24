@@ -6,6 +6,7 @@ interface OAuthConfig {
 interface Endpoints {
   RANDOM_VERSE: string;
   VERSE_BY_KEY: string;
+  CHAPTERS: string;
   LIST_AYAH_TRANSLATIONS: string;
   RESOURCE: {
     LANGUAGE: string;
@@ -45,6 +46,7 @@ const CONFIG: AppConfig = {
   ENDPOINT: {
     RANDOM_VERSE: "/verses/random",
     VERSE_BY_KEY: "/verses/by_key",
+    CHAPTERS: "/chapters/:id",
     LIST_AYAH_TRANSLATIONS: "/translations/:translation_id/by_ayah/:verse_key",
     RESOURCE: {
       LANGUAGE: "/resources/languages",

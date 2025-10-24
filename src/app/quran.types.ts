@@ -69,6 +69,7 @@ export interface RandomVerse {
 }
 
 export interface RandomVerseResponse {
+  chapter: Chapter;
   verse: Verse;
 }
 
@@ -159,6 +160,22 @@ export interface VerseTranslation {
 // Response for verse translations
 export interface VerseTranslationResponse {
   translations: VerseTranslation[];
+}
+
+export interface Chapter {
+  id: number;
+  name_complex: string;
+  name_arabic: string;
+  chapter_number: number;
+  verses_count: number;
+  revelation_place: string; // e.g., "Mecca" or "Medina"
+  revelation_order: number;
+  bismillah_pre: boolean;
+  page_number: number;
+}
+
+export interface ChapterResponse {
+  chapter: Chapter;
 }
 
 export const allFields = [

@@ -2,14 +2,15 @@
 
 import React, { useState } from "react";
 import axios from "axios";
-import { RandomVerseResponse, Verse } from "./quran.types";
+import { Chapter, Verse } from "./quran.types";
 import CONFIG from "../config/app.config";
 
 export default function HomePage() {
   const [verse, setVerse] = useState<Verse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [chapter, setChapter] = useState("");
+  const [chapter, setChapter] = useState<Chapter | null>(null);
+  const [chapterNumber, setChapterNumber] = useState("");
   const [juz, setJuz] = useState("");
 
   const fetchRandomVerse = async (): Promise<void> => {
@@ -17,16 +18,18 @@ export default function HomePage() {
       setLoading(true);
       setError(null);
       const params: Record<string, string> = {};
-      if (chapter) params["chapter_number"] = chapter;
+      if (chapterNumber) params["chapter_number"] = chapterNumber;
       if (juz) params["juz_number"] = juz;
 
       const query = new URLSearchParams(params).toString();
       const url = query ? `/api/verse?${query}` : `/api/verse`;
 
-      const res = await axios.get<RandomVerseResponse>(url);
+      const res = await axios.get(url);
       if (CONFIG.debug) {
+        console.log("[page] chapter:", res.data.chapter);
         console.log("[page] verse:", res.data.verse);
       }
+      setChapter(res.data.chapter);
       setVerse(res.data.verse);
     } catch (err: any) {
       console.error(err);
@@ -47,8 +50,8 @@ export default function HomePage() {
           <input
             type="number"
             placeholder="Chapter Number (optional)"
-            value={chapter}
-            onChange={(e) => setChapter(e.target.value)}
+            value={chapterNumber}
+            onChange={(e) => setChapterNumber(e.target.value)}
             className="w-1/2 border rounded-lg p-2 focus:outline-none focus:ring focus:ring-green-300"
           />
           <input
@@ -69,6 +72,14 @@ export default function HomePage() {
         </button>
 
         {error && <p className="text-red-600 mt-3 text-center">{error}</p>}
+
+        {chapter && (
+          <div className="mt-6 text-center">
+            <p className="text-2xl font-arabic mb-3 text-gray-900 leading-relaxed">
+              {chapter.name_complex} ( {chapter.name_arabic} )
+            </p>
+          </div>
+        )}
 
         {verse && (
           <div className="mt-6 text-center">

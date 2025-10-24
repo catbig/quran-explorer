@@ -41,7 +41,9 @@ This project showcases **OAuth2 authentication**, **API fetching**, and centrali
 +-------------------------▼--------------------------------+
 |             Quran.Foundation API (Prelive)               |
 | - Random Ayah / Verse endpoints                          |
-| - Translations & metadata                                |
+| - Translations                                           |
+| - Resource Translations                                  |
+| - Chapter                                                |
 | - JSON responses handled by quranClient.ts               |
 +----------------------------------------------------------+
 ```

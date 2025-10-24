@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import axios from "axios";
 import CONFIG from "../config/app.config";
 import { getAccessToken } from "./oauth";
-import { RandomVerseResponse, TranslationResource, TranslationResourcesResponse, VerseTranslationResponse } from "@/app/quran.types";
+import { ChapterResponse, RandomVerseResponse, TranslationResource, TranslationResourcesResponse, VerseTranslationResponse } from "@/app/quran.types";
 import SECRETS from "@/config/app.secret";
 
 async function getHeaders() {
@@ -65,8 +65,8 @@ export async function getTranslationResources(language = "indonesian"): Promise<
 // https://api-docs.quran.foundation/docs/content_apis_versioned/list-ayah-translations
 export async function getTranslation(
   verseKey: string,
-  language = "english",
-  language1 = "indonesian"
+  language = "english"
+  // language1 = "indonesian"
 ) {
   const trResponse = await getTranslationResources(language);
   const ep = CONFIG.ENDPOINT.LIST_AYAH_TRANSLATIONS
@@ -92,6 +92,35 @@ export async function getTranslation(
     console.log("[quranClient.getTranslation] data:", data);
   }
   return data;
+}
+
+/**
+ * Fetch chapter details by chapter number
+ * @param chapterNumber number of the chapter (1-114)
+ * @returns Chapter object
+ */
+export async function getChapter(chapterNumber: number) {
+  const ep = CONFIG.ENDPOINT.CHAPTERS
+    .replace(":id", chapterNumber.toString());
+  const url = new URL(`${CONFIG.API_BASE_URL}${ep}`);
+  url.searchParams.append(
+    "fields",
+    "name_complex,name_arabic"
+  );
+
+  console.log("[quranClient.getChapter] endpoint: ", url.toString());
+  
+  const res = await axios.get(
+    url.toString(),
+    { headers: await getHeaders() }
+  );
+
+  const chapterResponse = await res.data as ChapterResponse;
+  if (CONFIG.debug) {
+    console.log("[getChapter] chapterResponse:", chapterResponse);
+  }
+
+  return chapterResponse;
 }
 
 export async function getRandomVerse(request: Request) {
@@ -131,26 +160,30 @@ export async function getRandomVerse(request: Request) {
       console.log("[getRandomVerse] Query string:", queryString);
     }
 
-    const randomResponse = await axios.get<RandomVerseResponse>(
+    const res = await axios.get(
       endpoint,
       { headers: await getHeaders() }
     );
+    const randomResponse = await res.data as RandomVerseResponse;
     if (CONFIG.debug) {
-      console.log("[getRandomVerse] randomResponse:", randomResponse.data);
+      console.log("[getRandomVerse] randomResponse:", randomResponse);
     }
 
-    if(randomResponse && randomResponse.data) {
-      const verseKey = randomResponse.data.verse.verse_key;
+    if(randomResponse) {
+      const verseKey = randomResponse.verse.verse_key;
       const [chapterStr] = verseKey.split(":");
-      randomResponse.data.verse.chapter_number = parseInt(chapterStr,10);
+      randomResponse.verse.chapter_number = parseInt(chapterStr,10);
 
       const translationResponse = await getTranslation(verseKey);
-      if (translationResponse) randomResponse.data.verse.translations = translationResponse.translations;
+      if (translationResponse) randomResponse.verse.translations = translationResponse.translations;
+
+      const chapterResponse = await getChapter(randomResponse.verse.chapter_number);
+      if (chapterResponse) randomResponse.chapter = chapterResponse.chapter;
     }
 
-    return NextResponse.json(randomResponse.data);
+    return NextResponse.json(randomResponse);
   } catch (error: any) {
-    console.error("[getRandomVerse] Error:", error.response?.data ?? error.message);
+    console.error(`quranClient:183:5 Error:`, error.response?.data ?? error.message);
     return NextResponse.json(
       { error: "Failed to fetch random verse" },
       { status: 500 }
