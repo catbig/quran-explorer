@@ -43,7 +43,7 @@ export default function HomePage() {
       </h1>
 
       <div className="bg-white shadow-md rounded-2xl p-6 w-full max-w-md">
-        <div className="flex gap-3 mb-4">
+        {/* <div className="flex gap-3 mb-4">
           <input
             type="number"
             placeholder="Chapter Number (optional)"
@@ -58,7 +58,7 @@ export default function HomePage() {
             onChange={(e) => setJuz(e.target.value)}
             className="w-1/2 border rounded-lg p-2 focus:outline-none focus:ring focus:ring-green-300"
           />
-        </div>
+        </div> */}
 
         <button
           onClick={fetchRandomVerse}

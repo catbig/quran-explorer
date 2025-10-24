@@ -28,7 +28,7 @@ This project showcases **OAuth2 authentication**, **API fetching**, and centrali
 |                      Quran Explorer                      |
 |----------------------------------------------------------|
 |                    Next.js Frontend                      |
-| - React Components (Navbar, Footnote, Verse Card)       |
+| - React Components (Navbar)        |
 | - Tailwind CSS UI                                        |
 | - NextAuth.js Login UI                                   |
 +-------------------------▲--------------------------------+
@@ -51,7 +51,7 @@ This project showcases **OAuth2 authentication**, **API fetching**, and centrali
 ### 🔄 Data Flow Summary
 
 1. User logs in via **Quran.Foundation OAuth2** → access token retrieved via **NextAuth.js**.
-2. Access token stored in session (encrypted).
+2. Access token is stored in the session (encrypted).
 3. Next.js API route (`/api/verse`) fetches a random verse using that token.
 4. UI renders ayah text and translation in real time.
 
@@ -78,7 +78,7 @@ This project showcases **OAuth2 authentication**, **API fetching**, and centrali
 
 ## ⚙️ Project Setup
 
-### 1. Create Project
+Use this if you want to set up the project from scratch.
 
 ```bash
 npx create-next-app@15.5.6 quran-explorer
@@ -112,7 +112,7 @@ quran-explorer/
 │   │   └── Navbar.tsx
 │   ├── config
 │   │   ├── app.config.ts
-│   │   └── app.secret.ts       # decript OAuth credentials
+│   │   └── app.secret.ts       # decrypt OAuth credentials
 │   ├── utils
 │   │   ├── oauth.ts
 │   │   └── quranClient.ts
@@ -221,9 +221,32 @@ Open your ngrok URL in the browser.
 
 ## 💡 Usage
 
-1. Log in with **Quran.Foundation OAuth2**
+1. Click the button **Get Random Verse**
 2. Fetch a random ayah
 3. View translations for that ayah
+
+---
+
+## 🐞 Bugs Found
+
+1. **`/resource/translation`**
+
+   * Cannot filter by `language`.
+
+2. **`/resource/language`**
+
+   * Cannot filter by `language`.
+
+3. **`/verses/random`**
+
+   * Returns an error if both chapter number and juz number are used:
+
+```json
+{
+  "message": "The server encountered an internal error and was unable to complete your request",
+  "type": "internal_server_error"
+}
+```
 
 ---
 
@@ -233,3 +256,5 @@ Open your ngrok URL in the browser.
 * OAuth2 callback is exposed via **ngrok** during local testing.
 * UI is styled with **Tailwind CSS**.
 * All constants, endpoints, and translations are centralized in `config/app.config.ts`.
+
+---
