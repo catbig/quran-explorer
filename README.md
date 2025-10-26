@@ -254,6 +254,21 @@ Below is a preview of the **Quran Explorer** interface:
 
 ---
 
+## ⚠️ Why Not Use the Official SDK
+
+This project **intentionally does not use the official SDK** in order to gain a **deeper understanding of the Quran.Foundation API** and its underlying mechanisms.
+
+Reasons:
+
+1. **Deeper Insight:** By interacting directly with the raw REST endpoints, developers can better understand how authentication, parameters, and responses work.
+2. **Transparency:** Seeing the full request/response flow makes debugging and learning API behavior easier.
+3. **Learning Focus:** This project is designed as a **hands-on educational reference**, not just a plug-and-play SDK example.
+4. **Flexibility:** Direct integration allows experimenting with different endpoints and OAuth2 scopes without SDK limitations.
+
+> In short: This approach is **deliberately low-level** to help developers explore and understand the Quran.Foundation API more deeply.
+
+---
+
 ## 🐞 Bugs Found (Quran.Foundation API)
 
 These issues were observed while testing the **Quran.Foundation API (Prelive)** environment.
